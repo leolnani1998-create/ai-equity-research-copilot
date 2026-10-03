@@ -1,0 +1,292 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>AI Equity Research & Valuation Copilot</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#f3f5f8;--card:#fff;--tx:#0f1b2d;--mu:#5d6b82;--bd:#dde3ec;--ac:#0b5cab;--nav:#0c1a2e;--gn:#0a8f5b;--rd:#c8372d;--am:#b7791f}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0a111c;--card:#111c2b;--tx:#e6edf6;--mu:#8fa0b8;--bd:#22324a;--ac:#4aa3ff;--nav:#060c15;--gn:#2ecc8f;--rd:#ff6b5e;--am:#f0b429}}
+:root[data-theme=dark]{--bg:#0a111c;--card:#111c2b;--tx:#e6edf6;--mu:#8fa0b8;--bd:#22324a;--ac:#4aa3ff;--nav:#060c15;--gn:#2ecc8f;--rd:#ff6b5e;--am:#f0b429}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.5 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+.app{display:flex;min-height:100vh}nav{width:220px;background:var(--nav);color:#c9d6e8;padding:16px 10px;position:sticky;top:0;height:100vh;overflow:auto;flex-shrink:0}
+nav h1{font-size:13px;letter-spacing:.08em;color:#fff;margin:4px 8px 14px}nav small{display:block;color:#7d90ad;font-weight:400;letter-spacing:0;margin-top:2px}
+nav a{display:block;padding:8px 10px;border-radius:6px;color:inherit;cursor:pointer;margin-bottom:2px}nav a:hover{background:#1a2c47}nav a.on{background:var(--ac);color:#fff}
+main{flex:1;padding:20px;min-width:0;max-width:1200px}h2{margin:0 0 4px;font-size:20px}h3{margin:0 0 10px;font-size:14px;text-transform:uppercase;letter-spacing:.05em;color:var(--mu)}
+.sub{color:var(--mu);margin-bottom:16px}.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}.g2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:14px;margin-bottom:12px;min-width:0}.k{font-size:11px;color:var(--mu);text-transform:uppercase;letter-spacing:.05em}.v{font-size:20px;font-weight:650;margin-top:2px}
+.pos{color:var(--gn)}.neg{color:var(--rd)}.miss{color:var(--am);font-size:12px;font-style:italic}
+.tw{overflow-x:auto}table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}th,td{padding:6px 8px;border-bottom:1px solid var(--bd);text-align:right;white-space:nowrap}th:first-child,td:first-child{text-align:left}th{font-size:11px;color:var(--mu);text-transform:uppercase}
+input,select,textarea{background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:6px;padding:5px 7px;font:inherit;width:100%;min-width:70px}td input{text-align:right}textarea{min-height:80px}label{display:block;font-size:12px;color:var(--mu);margin-bottom:8px}
+.b{display:inline-block;font-size:10px;font-weight:700;padding:1px 6px;border-radius:9px;margin-left:6px;vertical-align:middle}.R{background:#d6ecff;color:#0b5cab}.U,.P{background:#e6defa;color:#5a34b0}.A{background:#ffe9c2;color:#8a5a00}.C{background:#d4f3e4;color:#0a6b45}.D{background:#ffd9d6;color:#a3211a}
+.warn{background:rgba(183,121,31,.12);border:1px solid var(--am);border-radius:8px;padding:8px 10px;margin-bottom:12px;font-size:12.5px}
+button{background:var(--ac);color:#fff;border:0;border-radius:6px;padding:7px 12px;cursor:pointer;font:inherit}button.s{background:var(--bd);color:var(--tx)}
+.ff{position:relative;height:26px;background:var(--bg);border-radius:4px;margin:4px 0 14px}.ff i{position:absolute;top:4px;height:18px;background:var(--ac);opacity:.75;border-radius:3px}.ff u{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--rd)}
+.rep h4{margin:16px 0 4px;border-bottom:2px solid var(--ac);padding-bottom:2px}.rep p,.rep li{margin:4px 0}.tabs button{margin:0 6px 6px 0}
+.top{background:var(--nav);color:#e6edf6;border-radius:8px;padding:10px 14px;margin-bottom:12px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center;border-left:4px solid #e8a317}.top select{background:#16253d;color:#fff;border-color:#2d4468}
+.chip{background:#e8a317;color:#111;font-weight:700;font-size:10px;padding:2px 8px;border-radius:3px;letter-spacing:.06em;margin-right:8px}.gen{background:#e8a317;color:#111;font-weight:800;letter-spacing:.05em;padding:9px 16px}
+.demo{border-color:var(--rd);background:rgba(200,55,45,.1)}.vw{background:var(--rd);color:#fff;font-weight:700;padding:9px 12px;border-radius:6px;margin-bottom:12px;font-size:13px}.v,td{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}td:first-child{font-family:inherit}
+button:disabled{opacity:.5;cursor:not-allowed}.rep h5{margin:12px 0 4px}#aiout td,#aiout th{text-align:left;white-space:normal;font-family:inherit}pre,code{font-family:ui-monospace,Menlo,monospace}
+@media(max-width:760px){.app{flex-direction:column}nav{width:100%;height:auto;position:static;display:flex;flex-wrap:wrap;gap:4px}nav h1{width:100%}nav a{margin:0}main{padding:12px}}
+@media print{nav,.noprint{display:none}main{max-width:none}}
+</style></head><body><div class="app"><nav id="nav"></nav><main id="m"></main></div>
+<script>
+const MISS='<span class="miss">Data not provided — please enter or verify the value.</span>';
+const INREQ='<span class="miss">Input required</span>';
+const pf=(v,d=2)=>v==null||!isFinite(v)?INREQ:f(v,d)+'%';
+const fi=(v,d=0)=>v==null||!isFinite(v)?INREQ:f(v,d);
+const DEMO='DEMO DATA – illustrative placeholder, NOT a filing. Replace with verified figure.';
+const S={co:{name:'Zepto',ticker:'N/A (private)',sector:'Quick Commerce / Consumer Internet',price:100,shares:100,cash:2200,debt:300,psrc:DEMO},
+yrs:['FY23','FY24','FY25'],
+rows:{rev:['Revenue',[1000,2500,5000]],ebitda:['EBITDA',[-800,-1200,-600]],da:['D&A',[30,80,150]],ni:['Net income',[-900,-1300,-800]],cfo:['Operating cash flow',[-700,-900,-400]],capex:['Capex',[50,120,250]],equity:['Shareholders equity',[3000,4500,4000]],debt:['Total debt',[100,200,300]],cash:['Cash & equivalents',[2000,2500,2200]],ca:['Current assets',[2500,3200,3000]],cl:['Current liabilities',[900,1500,2000]]},
+src:{},tag:{},
+w:{rf:7,beta:1.3,mrp:6,cod:10,tax:25,wd:10},useW:true,wman:13,
+d:{da:3,capex:4,nwc:5,tax:25,act:'base',sc:{bull:{g1:60,g5:15,m5:12,tg:5,dw:-1},base:{g1:45,g5:12,m5:8,tg:4,dw:0},bear:{g1:30,g5:8,m5:3,tg:3,dw:1.5}}},
+comps:[{n:'Comp A (DEMO)',pe:'',ev:'',es:2.5,pb:6,s:DEMO},{n:'Comp B (DEMO)',pe:'',ev:'',es:1.8,pb:4.5,s:DEMO},{n:'Comp C (DEMO)',pe:'',ev:'',es:3.2,pb:7.5,s:DEMO}],
+t:{biz:'Describe the business model, segments, geographies and customers here (user to complete from company filings).',ind:'Describe industry structure, size, growth and competitive landscape here, citing sources.',drv:'e.g. network density, order frequency, private-label mix, advertising income, operating leverage.',cat:'e.g. IPO, path to EBITDA breakeven, funding rounds, regulatory clarity.',rsk:'e.g. intense competition, cash burn, regulation of dark stores, gig-labour costs, funding dependence.'}};
+S.per={};S.pg={};S.mode='acad';S.cache={};S.gen=0;S.genAt='';S.ai=null;
+const KEYS=['price','shares','cash','debt'];
+const fillMeta=o=>{Object.keys(o.rows).concat(KEYS).forEach(k=>{o.src[k]=DEMO;o.tag[k]='D';o.per[k]='';o.pg[k]=''});return o};
+fillMeta(S);const E5=()=>['','','','',''];
+Object.assign(S,{yrs:['FY22','FY23','FY24','FY25','FY26'],co:{name:'Zepto',ticker:'N/A (private)',sector:'Quick Commerce / Consumer Internet',price:'',shares:'',cash:'',debt:'',psrc:''},
+rows:{rev:['Revenue (₹ Cr)',[142,2026,4455,11110,22624]],gP:['Revenue growth % (as provided)',['',1327,120,149,104]],ni:['Net income / (loss) (₹ Cr)',['','',-1215,-4700,-5905]],nmP:['Net profit margin % (as provided)',['','',-27.3,-42.3,-26.1]],ebM:['EBITDA margin % (as provided)',['','',-23.10,-37.39,-20.98]],opM:['Operating margin % (as provided)',['','','',-41.02,-24.93]],ebitda:['EBITDA, absolute (₹ Cr)',E5()],da:['D&A (₹ Cr)',E5()],cfo:['Operating cash flow (₹ Cr)',E5()],capex:['Capex (₹ Cr)',E5()],equity:['Shareholders equity (₹ Cr)',E5()],debt:['Total debt (₹ Cr)',E5()],cash:['Cash & equivalents (₹ Cr)',E5()],ca:['Current assets (₹ Cr)',E5()],cl:['Current liabilities (₹ Cr)',E5()]},
+w:{rf:'',beta:'',mrp:'',cod:'',tax:'',wd:''},useW:true,wman:'',
+d:{da:'',capex:'',nwc:'',tax:'',act:'base',sc:{bull:{g1:'',g5:'',m5:'',m10:'',tg:'',dw:''},base:{g1:'',g5:'',m5:'',m10:'',tg:'',dw:''},bear:{g1:'',g5:'',m5:'',m10:'',tg:'',dw:''}}},
+comps:[],t:{biz:'',ind:'',drv:'',cat:'',rsk:''}});
+S.src={};S.tag={};S.per={};S.pg={};
+Object.keys(S.rows).concat(KEYS).forEach(k=>{S.src[k]='';S.per[k]='';S.pg[k]='';S.tag[k]='U'});['rev','gP','ni','nmP','ebM','opM'].forEach(k=>S.tag[k]='P');S.tag.price='A';
+
+const DS=()=>JSON.parse(JSON.stringify({yrs:S.yrs,co:S.co,rows:S.rows,src:S.src,tag:S.tag,per:S.per,pg:S.pg,w:S.w,useW:S.useW,wman:S.wman,d:S.d,comps:S.comps,t:S.t}));
+const ACAD0=DS();
+const LIST=()=>fillMeta({yrs:['FY23','FY24','FY25'],co:{name:'Demo Listed Co Ltd (fictional)',ticker:'DEMOLTD',sector:'Consumer Staples (DEMO)',price:250,shares:100,cash:900,debt:1300,psrc:''},
+rows:{rev:['Revenue',[8000,9200,10400]],gP:['Revenue growth % (as provided)',['','','']],nmP:['Net profit margin % (as provided)',['','','']],ebM:['EBITDA margin % (as provided)',['','','']],opM:['Operating margin % (as provided)',['','','']],ebitda:['EBITDA',[1400,1650,1900]],da:['D&A',[300,330,360]],ni:['Net income',[700,850,1020]],cfo:['Operating cash flow',[1000,1200,1450]],capex:['Capex',[400,450,500]],equity:['Shareholders equity',[4000,4600,5300]],debt:['Total debt',[1500,1400,1300]],cash:['Cash & equivalents',[600,700,900]],ca:['Current assets',[3000,3400,3800]],cl:['Current liabilities',[2200,2400,2600]]},
+src:{},tag:{},per:{},pg:{},w:{rf:7,beta:0.8,mrp:6,cod:8.5,tax:25,wd:20},useW:true,wman:11,
+d:{da:3.5,capex:4.8,nwc:10,tax:25,act:'base',sc:{bull:{g1:14,g5:9,m5:21,m10:22,tg:5,dw:-0.5},base:{g1:11,g5:7,m5:19,m10:19,tg:4,dw:0},bear:{g1:7,g5:4,m5:16,m10:15,tg:3,dw:1.5}}},
+comps:[{n:'Peer A (DEMO)',pe:22,ev:12,es:2.6,pb:4.8,s:DEMO},{n:'Peer B (DEMO)',pe:26,ev:14,es:3.1,pb:5.5,s:DEMO},{n:'Peer C (DEMO)',pe:19,ev:10.5,es:2.2,pb:4,s:DEMO}],
+t:{biz:'DEMO TEXT: fictional listed consumer-staples manufacturer. Replace with a description drawn from the annual report.',ind:'DEMO TEXT: describe industry size, growth and competitors with cited sources.',drv:'DEMO TEXT: volume growth, premiumisation, distribution expansion, operating leverage.',cat:'DEMO TEXT: new capacity, margin recovery, results beats, rating changes.',rsk:'DEMO TEXT: input-cost inflation, competition, regulation, demand slowdown.'}});
+function setMode(m){if(m==S.mode)return;if(typeof ctl!=='undefined'&&ctl)ctl.abort();S.ai=null;S.cache[S.mode]=DS();Object.assign(S,JSON.parse(JSON.stringify(S.cache[m]||(m=='list'?LIST():ACAD0))));S.mode=m;S.gen=0;page='dash';render()}
+let page='dash';
+const N=v=>v===''||v==null||isNaN(+v)?null:+v;
+const f=(v,d=0)=>v==null||!isFinite(v)?MISS:(+v).toLocaleString('en-IN',{maximumFractionDigits:d,minimumFractionDigits:d});
+const p=(v)=>v==null||!isFinite(v)?MISS:`<span class="${v<0?'neg':''}">${(v*100).toFixed(1)}%</span>`;
+const x=(v)=>v==null||!isFinite(v)?'n.m.':v.toFixed(2)+'x';
+const B={R:'Reported',U:'User-provided',A:'Analyst assumption',C:'Calculated',D:'DEMO DATA',P:'Project data (user-provided)'};
+const bd=t=>`<span class="b ${t}">${B[t]}</span>`;
+function up(path,val,num){const a=path.split('.');let o=S;for(let i=0;i<a.length-1;i++)o=o[a[i]];o[a[a.length-1]]=num?(val===''?'':+val):val;render()}
+const I=(path,val,num=1,st='any')=>`<input ${num?'type=number step='+st:''} value="${val??''}" onchange="up('${path}',this.value,${num})">`;
+const L=(lab,path,val,tag,num=1)=>`<label>${lab}${tag?bd(tag):''}${num&&(val===''||val==null)?'<span class="miss"> — Input required</span>':''}${I(path,val,num)}</label>`;
+const last=k=>N(S.rows[k][1][2]),prev=k=>N(S.rows[k][1][1]);
+const mcap=()=>N(S.co.price)!=null&&N(S.co.shares)!=null?S.co.price*S.co.shares:null;
+const dv=(a,b)=>a==null||b==null||b==0?null:a/b;
+const AR=k=>S.rows[k]?S.rows[k][1].map(N):[];
+function M(){const L=k=>{const a=AR(k);return a.length?a[a.length-1]:null},P=k=>{const a=AR(k);return a.length>1?a[a.length-2]:null},pm=k=>{const v=L(k);return v==null?null:v/100};
+const r=L('rev'),e=L('ebitda'),da=L('da'),ni=L('ni'),eq=L('equity'),db=L('debt'),ca=L('ca'),cl=L('cl'),cfo=L('cfo'),cx=L('capex'),cs=L('cash'),tx=N(S.d.tax);
+const ebit=e!=null&&da!=null?e-da:null,nopat=ebit==null||tx==null?null:ebit>0?ebit*(1-tx/100):ebit,ic=eq!=null&&db!=null&&cs!=null?eq+db-cs:null,pe=P('equity'),avg=eq!=null&&pe!=null?(eq+pe)/2:eq;
+return{r,e,da,ni,ebit,g:pm('gP')??(P('rev')&&r!=null?r/P('rev')-1:null),eg:P('ebitda')&&e!=null?(e-P('ebitda'))/Math.abs(P('ebitda')):null,em:pm('ebM')??dv(e,r),om:pm('opM')??dv(ebit,r),nm:pm('nmP')??dv(ni,r),roe:dv(ni,avg),roic:dv(nopat,ic),de:dv(db,eq),cr:dv(ca,cl),fcf:cfo!=null&&cx!=null?cfo-cx:null,nwc:ca!=null&&cl!=null?ca-cl:null,cfo,eq,db,cs,ic}}
+const wn=k=>N(S.w[k]);
+function ke(){const a=wn('rf'),b=wn('beta'),c=wn('mrp');return a==null||b==null||c==null?null:a+b*c}
+function wacc(){const k=ke(),cd=wn('cod'),t=wn('tax'),wd=wn('wd');return k==null||cd==null||t==null||wd==null?null:k*(1-wd/100)+cd*(1-t/100)*wd/100}
+const W=()=>S.useW?wacc():N(S.wman);
+function dNeed(k){const s=S.d.sc[k],d=S.d,m=M(),n=[];if(m.r==null)n.push('Latest revenue');if(m.em==null)n.push('Latest EBITDA margin');
+[['g1','Year-1 revenue growth'],['g5','Year-5 revenue growth'],['m5','Year-5 EBITDA margin'],['m10','Year-10 EBITDA margin'],['tg','Terminal growth'],['dw','WACC adjustment']].forEach(([x,l])=>{if(N(s[x])==null)n.push(l+' ('+k+' case)')});
+[['da','D&A % of sales'],['capex','Capex % of sales'],['nwc','ΔNWC % of Δ revenue'],['tax','Tax rate %']].forEach(([x,l])=>{if(N(d[x])==null)n.push(l)});
+if(W()==null)n.push(S.useW?'WACC (complete the CAPM / WACC inputs)':'Manual WACC');return n}
+function dcf(k){const need=dNeed(k);if(need.length)return{need};const m=M(),s=S.d.sc[k],d=S.d,v=x=>N(s[x]),rows=[];let rv=m.r,pv=0;
+const w=(W()+v('dw'))/100,g=v('tg')/100,m0=m.em,dap=N(d.da)/100,cxp=N(d.capex)/100,nw=N(d.nwc)/100,tx=N(d.tax)/100;
+for(let t=1;t<=10;t++){const gr=(t<=5?v('g1')+(v('g5')-v('g1'))*(t-1)/4:v('g5')+(v('tg')-v('g5'))*(t-5)/5)/100,r=rv*(1+gr),mg=t<=5?m0+(v('m5')/100-m0)*t/5:v('m5')/100+(v('m10')-v('m5'))/100*(t-5)/5,eb=r*mg,da=r*dap,ebit=eb-da,tax=Math.max(0,ebit)*tx,cx=r*cxp,dn=(r-rv)*nw,fc=ebit-tax+da-cx-dn,df=1/Math.pow(1+w,t);pv+=fc*df;rows.push({t,r,gr,eb,mg,da,ebit,tax,cx,dn,fc,df,pvf:fc*df});rv=r}
+if(w<=g)return{err:'WACC must exceed terminal growth.',rows,w,g};
+const Lr=rows[9],tv=Lr.fc*(1+g)/(w-g),ptv=tv*Lr.df,ev=pv+ptv,cs=N(S.co.cash),db=N(S.co.debt),sh=N(S.co.shares),nd=cs!=null&&db!=null?db-cs:null,eq=nd!=null?ev-nd:null;
+return{rows,w,g,tv,ptv,pv,ev,nd,eq,ps:eq!=null&&sh?eq/sh:null,tvp:ptv/ev,fc10:Lr.fc}}
+const med=a=>{a=a.filter(v=>v!=null).sort((x,y)=>x-y);if(!a.length)return null;const h=a.length>>1;return a.length%2?a[h]:(a[h-1]+a[h])/2}
+function rel(){const m=M(),sh=N(S.co.shares),pr=N(S.co.price),c=S.comps,cs=N(S.co.cash),db=N(S.co.debt),nd=cs!=null&&db!=null?db-cs:null,md=k=>med(c.map(o=>N(o[k]))),mc=mcap(),ev=mc!=null&&nd!=null?mc+nd:null,eps=m.ni!=null&&sh?m.ni/sh:null,bv=m.eq!=null&&sh?m.eq/sh:null;
+const imp=(mu,me)=>mu==null||me==null||me<=0?null:mu*me,pse=i=>i!=null&&nd!=null&&sh?(i-nd)/sh:null,iev={ev:imp(md('ev'),m.e),es:imp(md('es'),m.r)};
+return{cur:{pe:eps>0&&pr!=null?pr/eps:null,ev:m.e>0&&ev!=null?ev/m.e:null,es:dv(ev,m.r),pb:bv>0&&pr!=null?pr/bv:null},med:{pe:md('pe'),ev:md('ev'),es:md('es'),pb:md('pb')},iev,ps:{pe:imp(md('pe'),eps),ev:pse(iev.ev),es:pse(iev.es),pb:imp(md('pb'),bv)}}}
+function bars(lab,vals,unit=''){const w=360,h=170,vs=vals.filter(v=>v!=null),mx=Math.max(...vs.map(Math.abs),1),z=vs.some(v=>v<0)?h/2:h-24,sc=(z-14)/mx,bw=w/vals.length*.5;let s=`<svg viewBox="0 0 ${w} ${h}" width="100%" role="img">`;
+vals.forEach((v,i)=>{const cx=w/vals.length*(i+.5);if(v!=null){const hh=Math.abs(v)*sc;s+=`<rect x="${cx-bw/2}" y="${v>=0?z-hh:z}" width="${bw}" height="${hh}" fill="${v>=0?'var(--ac)':'var(--rd)'}" rx="2"/><text x="${cx}" y="${v>=0?z-hh-4:z+hh+11}" text-anchor="middle" font-size="10" fill="var(--tx)">${Math.round(v).toLocaleString('en-IN')+unit}</text>`}else s+=`<text x="${cx}" y="${z-4}" text-anchor="middle" font-size="9" fill="var(--mu)">n/p</text>`;s+=`<text x="${cx}" y="${h-6}" text-anchor="middle" font-size="10" fill="var(--mu)">${lab[i]}</text>`});
+return s+`<line x1="0" x2="${w}" y1="${z}" y2="${z}" stroke="var(--bd)"/></svg>`}
+function lines(lab,ser){const all=ser.flatMap(q=>q.v).filter(v=>v!=null);if(!all.length)return '<p>'+INREQ+'</p>';const w=360,h=210,mn=Math.min(...all,0),mx=Math.max(...all,0),y=v=>16+(mx-v)/((mx-mn)||1)*(h-80),xp=i=>30+(w-60)*i/((lab.length-1)||1),col=['var(--ac)','var(--am)','var(--rd)'];
+let s=`<svg viewBox="0 0 ${w} ${h}" width="100%" role="img"><line x1="0" x2="${w}" y1="${y(0)}" y2="${y(0)}" stroke="var(--bd)"/>`;lab.forEach((l,i)=>{s+=`<text x="${xp(i)}" y="${h-48}" text-anchor="middle" font-size="10" fill="var(--mu)">${l}</text>`});
+ser.forEach((q,k)=>{let seg=[];const fl=()=>{if(seg.length>1)s+=`<polyline fill="none" stroke="${col[k]}" stroke-width="2" points="${seg.join(' ')}"/>`;seg=[]};
+q.v.forEach((v,i)=>{if(v!=null){seg.push(xp(i)+','+y(v));s+=`<circle cx="${xp(i)}" cy="${y(v)}" r="3" fill="${col[k]}"/><text x="${xp(i)}" y="${y(v)-6-k*0}" text-anchor="middle" font-size="9" fill="${col[k]}">${v.toFixed(1)}</text>`}else fl()});fl();s+=`<rect x="${10+k*110}" y="${h-28}" width="9" height="9" fill="${col[k]}"/><text x="${24+k*110}" y="${h-20}" font-size="10" fill="var(--tx)">${q.n}</text>`});return s+'</svg>'}
+const gs=()=>{const rv=AR('rev'),g=AR('gP');return rv.map((v,i)=>g[i]!=null?g[i]:(i>0&&rv[i-1]&&v!=null?(v/rv[i-1]-1)*100:null))};
+const mser=()=>{const rv=AR('rev'),eb=AR('ebitda'),da=AR('da'),ni=AR('ni'),a=AR('ebM'),o=AR('opM'),n=AR('nmP');return[{n:'EBITDA margin',v:rv.map((r,i)=>a[i]!=null?a[i]:eb[i]!=null&&r?eb[i]/r*100:null)},{n:'Operating margin',v:rv.map((r,i)=>o[i]!=null?o[i]:eb[i]!=null&&da[i]!=null&&r?(eb[i]-da[i])/r*100:null)},{n:'Net margin',v:rv.map((r,i)=>n[i]!=null?n[i]:ni[i]!=null&&r?ni[i]/r*100:null)}]};
+function ff(items,price){const all=items.flatMap(i=>[i.lo,i.hi]).concat(price).filter(v=>v!=null),mn=Math.min(...all,0),mx=Math.max(...all),pc=v=>((v-mn)/(mx-mn||1)*100);
+return items.map(i=>`<div style="font-size:12px">${i.n}: ₹${i.lo.toFixed(1)} – ₹${i.hi.toFixed(1)}</div><div class="ff"><i style="left:${pc(Math.min(i.lo,i.hi))}%;width:${Math.abs(pc(i.hi)-pc(i.lo))}%"></i>${price!=null?`<u style="left:${pc(price)}%"></u>`:''}</div>`).join('')+(price!=null?`<div class="k">Red line = reference price ₹${price}</div>`:'')}
+const kpi=(k,v,t)=>`<div class="card"><div class="k">${k}${t?bd(t):''}</div><div class="v">${v}</div></div>`;
+const warnDemo=()=>S.mode=='acad'?`<div class="warn demo"><b>ACADEMIC / PRIVATE-COMPANY CASE — Zepto (private company).</b> Revenue, growth, net-loss and margin figures are <b>user-provided project data</b>: not independently verified by this app and not yet linked to a source (add UDRHP page references in Source Verification). Everything else — balance sheet, cash flow, share count, WACC inputs, forecasts, peers, price — is <b>not provided</b> and shown as Input required. There is no market price for a private company. ₹ crore unless stated.</div>`:`<div class="warn demo"><b>DEMO LISTED-COMPANY MODE — fictional company.</b> "Demo Listed Co Ltd" does not exist; all financials, prices and peer multiples are invented for demonstration. ₹ crore unless stated.</div>`;
+function scAll(){return['bear','base','bull'].map(k=>({k,r:dcf(k)}))}
+const V={
+dash(){const m=M(),b=dcf('base'),mc=mcap(),pr=N(S.co.price),cur=rel().cur;
+return `<h2>Dashboard</h2><div class="sub">${S.co.name} · ${S.co.ticker} · ${S.co.sector}</div>${warnDemo()}
+<div class="grid">${kpi('Company',S.co.name,'U')}${kpi('Ticker',S.co.ticker,'U')}${kpi('Sector',S.co.sector,'U')}${kpi('Revenue ('+S.yrs[S.yrs.length-1]+', ₹ Cr)',f(m.r),S.tag.rev)}${kpi('Revenue growth',p(m.g),S.tag.gP)}${kpi('EBITDA margin',p(m.em),S.tag.ebM)}${kpi('Operating margin',p(m.om),S.tag.opM)}${kpi('Net income / (loss) ₹ Cr',f(m.ni),S.tag.ni)}${kpi('Net margin',p(m.nm),S.tag.nmP)}${kpi(S.mode=='acad'?'Reference price (analyst assumption)':'Price (₹, demo)',pr==null?INREQ:f(pr),S.tag.price)}${kpi('Market cap',mc==null?INREQ:f(mc),'C')}${kpi('Sources referenced',vcount(),'C')}</div>
+<div class="grid">${kpi('WACC',pf(W()),'C')}${kpi('DCF value/share (base)',b&&b.ps!=null?'₹'+f(b.ps,1):INREQ,'C')}${kpi('DCF EV (base, ₹ Cr)',b&&b.ev!=null?f(b.ev):INREQ,'C')}${kpi('EV/Sales (current)',cur.es==null?INREQ:x(cur.es),'C')}</div>
+<div class="grid g2"><div class="card"><h3>Revenue (₹ Cr) ${bd(S.tag.rev)}</h3>${bars(S.yrs,AR('rev'))}</div><div class="card"><h3>Revenue growth % ${bd(S.tag.gP)}</h3>${bars(S.yrs,gs(),'%')}<div class="k">n/p = not provided. Growth in the first year with a prior year reflects a low base.</div></div></div>
+<div class="card"><h3>Profitability margins % ${bd(S.tag.ebM)}</h3>${lines(S.yrs,mser())}</div>
+<div class="card"><h3>Valuation football field (₹/share)</h3>${footy()}</div>`},
+res(){const m=M(),ins=[];
+ins.push(m.g==null?'Revenue growth: '+'data not provided.':`Revenue grew ${(m.g*100).toFixed(1)}% in the latest year.`);
+if(m.em!=null)ins.push(m.em<0?`EBITDA margin is negative (${(m.em*100).toFixed(1)}%): the business is not yet self-funding at the operating level.`:`EBITDA margin is ${(m.em*100).toFixed(1)}%.`);
+if(m.roe!=null)ins.push(`ROE is ${(m.roe*100).toFixed(1)}%${m.roe<0?' — value is not yet being created for equity holders':''}.`);
+if(m.roic!=null)ins.push(`ROIC is ${(m.roic*100).toFixed(1)}% on invested capital of ₹${f(m.ic)} Cr.`);
+if(m.de!=null)ins.push(`Debt/Equity is ${m.de.toFixed(2)}x — ${m.de<0.5?'low':'elevated'} leverage.`);
+if(m.cfo!=null)ins.push(m.cfo<0?'Operating cash flow is negative — runway depends on cash balance and fundraising.':'Operating cash flow is positive.');
+if(m.nwc!=null)ins.push(`Net working capital (CA − CL) is ₹${f(m.nwc)} Cr; current ratio ${m.cr?m.cr.toFixed(2)+'x':'n/a'}.`);
+return `<h2>Company Research</h2><div class="sub">Enter company information and historical financials. Every row needs a source.</div>${warnDemo()}
+<div class="card"><h3>Company profile</h3><div class="grid">${L('Company name','co.name',S.co.name,'U',0)}${L('Ticker','co.ticker',S.co.ticker,'U',0)}${L('Sector','co.sector',S.co.sector,'U',0)}${L(S.mode=='acad'?'Reference price (₹) — only as an analyst assumption':'Current price (₹)','co.price',S.co.price,S.tag.price)}${L('Shares outstanding (Cr)','co.shares',S.co.shares,S.tag.shares)}${L('Cash (₹ Cr)','co.cash',S.co.cash,S.tag.cash)}${L('Debt (₹ Cr)','co.debt',S.co.debt,S.tag.debt)}</div>${''}</div>
+<div class="card"><h3>Historical financials (₹ Cr)</h3><div class="tw"><table><tr><th>Line item</th>${S.yrs.map(y=>`<th>${y}</th>`).join('')}<th>Type</th><th style="text-align:left">Source / reference</th></tr>
+${Object.entries(S.rows).map(([k,[n,v]])=>`<tr><td>${n}</td>${v.map((a,i)=>`<td>${I(`rows.${k}.1.${i}`,a)}</td>`).join('')}<td><select onchange="up('tag.${k}',this.value,0)">${['R','P','U','D'].map(t=>`<option value=${t} ${S.tag[k]==t?'selected':''}>${B[t]}</option>`).join('')}</select></td><td style="text-align:left;min-width:260px">${I('src.'+k,S.src[k],0)}${S.src[k]?'':MISS}</td></tr>`).join('')}</table></div></div>
+${S.mode=='acad'?`<div class="card"><h3>Project framework & objectives ${bd('P')}</h3><div class="grid g2"><div><b>Valuation framework (as provided)</b><ul><li>DCF — FCFF, WACC, CAPM, 10-year three-stage</li><li>Relative valuation — EV/Sales</li><li>Bull / Base / Bear scenarios</li></ul></div><div><b>Objectives — data status</b><ul><li>Revenue growth &amp; profitability: provided (${S.yrs[0]}–${S.yrs[S.yrs.length-1]})</li><li>Intrinsic value (DCF + relative): ${INREQ} — forecast, WACC, net-debt and share inputs</li><li>AOV: Information not provided</li><li>Adjusted EBITDA/order: Information not provided</li><li>Dark-store economics: Information not provided</li><li>Peer benchmarking: ${S.comps.length?S.comps.length+' peers entered':'Information not provided'}</li></ul></div></div></div>`:''}<div class="card"><h3>Analyst notes (user-written)</h3>${[['biz','Business overview'],['ind','Industry overview'],['drv','Growth drivers'],['cat','Catalysts'],['rsk','Key risks']].map(([k,n])=>`<label>${n}${bd('U')}<textarea placeholder="Enter your own notes. Leave blank if not provided." onchange="up('t.${k}',this.value,0)">${S.t[k]}</textarea></label>`).join('')}</div>
+<div class="card"><h3>Formula-based checks ${bd('C')} — calculated, not AI-generated</h3><ul>${ins.map(i=>`<li>${i}</li>`).join('')}</ul></div>`},
+fin(){const m=M(),rv=AR('rev'),ni=AR('ni'),R=(n,v,t='C',nt='')=>`<tr><td>${n}</td><td>${v}</td><td>${bd(t)}</td><td style="text-align:left">${nt}</td></tr>`,
+pc2=v=>v==null?'<span class="miss">n/p</span>':`<span class="${v<0?'neg':''}">${v.toFixed(2)}%</span>`,YR=(n,a,t)=>`<tr><td>${n} ${bd(t)}</td>${a.map(v=>`<td>${pc2(v)}</td>`).join('')}</tr>`,NR=(n,a,t)=>`<tr><td>${n} ${bd(t)}</td>${a.map(v=>`<td>${v==null?'<span class="miss">n/p</span>':f(v)}</td>`).join('')}</tr>`,
+cg=rv.map((v,i)=>i>0&&rv[i-1]&&v!=null?(v/rv[i-1]-1)*100:null),cn=rv.map((v,i)=>v&&ni[i]!=null?ni[i]/v*100:null),ms=mser();
+return `<h2>Financial Analysis</h2><div class="sub">Latest year: ${S.yrs[S.yrs.length-1]}. "n/p" = Information not provided. Rows tagged Calculated are arithmetic cross-checks of the supplied figures.</div>${warnDemo()}
+<div class="card tw"><h3>Year-by-year</h3><table><tr><th>Item</th>${S.yrs.map(y=>`<th>${y}</th>`).join('')}</tr>${NR('Revenue (₹ Cr)',rv,S.tag.rev)}${YR('Revenue growth — as provided',AR('gP'),S.tag.gP)}${YR('Revenue growth — calculated check',cg,'C')}${NR('Net income / (loss) (₹ Cr)',ni,S.tag.ni)}${YR('Net margin — as provided',AR('nmP'),S.tag.nmP)}${YR('Net margin — calculated check',cn,'C')}${YR('EBITDA margin — as provided',AR('ebM'),S.tag.ebM)}${YR('Operating margin — as provided',AR('opM'),S.tag.opM)}</table></div>
+<div class="grid g2"><div class="card"><h3>Revenue (₹ Cr)</h3>${bars(S.yrs,rv)}</div><div class="card"><h3>Revenue growth %</h3>${bars(S.yrs,gs(),'%')}</div></div>
+<div class="grid g2"><div class="card"><h3>Profitability margins %</h3>${lines(S.yrs,ms)}</div><div class="card"><h3>Net income / (loss) (₹ Cr)</h3>${bars(S.yrs,ni)}</div></div>
+<div class="card tw"><h3>Latest-year ratios</h3><table><tr><th>Metric</th><th>Value</th><th>Type</th><th style="text-align:left">Basis</th></tr>
+${R('Revenue growth %',p(m.g),S.tag.gP,'As provided (or calculated if not provided)')}${R('EBITDA growth %',p(m.eg),'C','Needs absolute EBITDA for two years')}${R('EBITDA margin',p(m.em),S.tag.ebM,'As provided')}${R('Operating (EBIT) margin',p(m.om),S.tag.opM,'As provided')}${R('Net profit margin',p(m.nm),S.tag.nmP,'As provided')}${R('ROE',p(m.roe),'C','Net income / avg equity (needs equity)')}${R('ROIC',p(m.roic),'C','Needs EBIT, tax, equity, debt, cash')}${R('Debt / Equity',m.de==null?MISS:m.de.toFixed(2)+'x','C','Needs balance-sheet inputs')}${R('Current ratio',m.cr==null?MISS:m.cr.toFixed(2)+'x','C','CA / CL')}${R('Working capital (₹ Cr)',f(m.nwc),'C','CA − CL')}${R('Free cash flow (₹ Cr)',f(m.fcf),'C','CFO − Capex')}</table></div>`},
+wacc(){const w=S.w,cd=wn('cod'),tx=wn('tax'),wd=wn('wd');return `<h2>CAPM / WACC</h2><div class="sub">All inputs in %. Nothing is pre-filled for Zepto — enter your own sourced assumptions; blank = Input required.</div><div class="card"><div class="grid">${L('Risk-free rate','w.rf',w.rf,'A')}${L('Beta','w.beta',w.beta,'A')}${L('Market risk premium','w.mrp',w.mrp,'A')}${L('Pre-tax cost of debt','w.cod',w.cod,'A')}${L('Tax rate','w.tax',w.tax,'A')}${L('Debt weight (D/(D+E))','w.wd',w.wd,'A')}</div>
+<div class="warn">Assumptions must be sourced by you (e.g. a government-bond yield, a published beta, an ERP survey). Record the source in your notes.</div></div>
+<div class="grid">${kpi('Cost of equity (Rf + β × MRP)',pf(ke()),'C')}${kpi('After-tax cost of debt',cd!=null&&tx!=null?pf(cd*(1-tx/100)):INREQ,'C')}${kpi('Equity weight',wd!=null?f(100-wd,1)+'%':INREQ,'C')}${kpi('WACC',pf(wacc()),'C')}</div>
+<div class="card"><label><input type="checkbox" style="width:auto;min-width:0" ${S.useW?'checked':''} onchange="S.useW=this.checked;render()"> Use computed WACC in DCF</label>${S.useW?'':L('Manual WACC %','wman',S.wman,'A')}</div>`},
+dcf(){const d=S.d,sc=d.sc[d.act],r=dcf(d.act),K=k=>`d.sc.${d.act}.${k}`;
+return `<h2>DCF Valuation — 10-year, three-stage</h2><div class="sub">Stage 1 (Y1–5): growth and EBITDA margin move from Y1 growth / latest margin to the Y5 targets. Stage 2 (Y6–10): fade to terminal growth and the Y10 margin. Stage 3: Gordon-growth terminal value on Y10 FCFF. FCFF = EBIT − taxes + D&A − capex − ΔNWC; end-year discounting. Every forecast input is an analyst assumption you enter.</div>${S.mode=='acad'?'<div class="warn demo">Academic private-company case: no forecast, WACC, capex or net-debt inputs have been provided, so nothing is pre-filled.</div>':''}
+<div class="card tabs noprint">${['bear','base','bull'].map(k=>`<button class="${d.act==k?'':'s'}" onclick="S.d.act='${k}';render()">${k.toUpperCase()}</button>`).join('')}</div>
+<div class="card"><h3>${d.act} case assumptions ${bd('A')}</h3><div class="grid">${L('Revenue growth Y1 %',K('g1'),sc.g1)}${L('Revenue growth Y5 %',K('g5'),sc.g5)}${L('Y5 EBITDA margin %',K('m5'),sc.m5)}${L('Y10 EBITDA margin %',K('m10'),sc.m10)}${L('Terminal growth %',K('tg'),sc.tg)}${L('WACC adjustment (pp)',K('dw'),sc.dw)}${L('D&A % sales','d.da',d.da)}${L('Capex % sales','d.capex',d.capex)}${L('ΔNWC % of Δ revenue','d.nwc',d.nwc)}${L('Tax rate %','d.tax',d.tax)}</div></div>
+${r.need?`<div class="warn demo"><b>Input required.</b> The DCF cannot run until these are entered — nothing has been assumed:<ul>${r.need.map(q=>`<li>${q}</li>`).join('')}</ul></div>`:r.err?`<div class="warn">${r.err}</div>`:`<div class="card tw"><table><tr><th>₹ Cr</th>${r.rows.map(o=>`<th>Y${o.t}${o.t<=5?' (S1)':' (S2)'}</th>`).join('')}</tr>
+${[['Revenue','r'],['Growth %','gr',1],['EBITDA','eb'],['EBITDA margin %','mg',1],['D&A','da'],['EBIT','ebit'],['Taxes','tax'],['Capex','cx'],['Δ NWC','dn'],['FCFF','fc'],['Discount factor','df',2],['PV of FCFF','pvf']].map(([n,k,pc])=>`<tr><td>${n}</td>${r.rows.map(o=>`<td class="${k=='fc'&&o[k]<0?'neg':''}">${pc==1?(o[k]*100).toFixed(1):pc==2?o[k].toFixed(3):f(o[k])}</td>`).join('')}</tr>`).join('')}</table></div>
+<div class="grid">${kpi('WACC used',pf(r.w*100),'C')}${kpi('Sum PV of FCFF',f(r.pv),'C')}${kpi('PV of terminal value',f(r.ptv),'C')}${kpi('Enterprise value',f(r.ev),'C')}${kpi('Net debt',fi(r.nd),'C')}${kpi('Equity value',fi(r.eq),'C')}${kpi('Implied value / share',r.ps==null?INREQ:'₹'+f(r.ps,1),'C')}${kpi('TV % of EV',p(r.tvp),'C')}</div>
+${r.nd==null?'<div class="warn">Equity value needs <b>cash and debt</b> (Company Research tab) — Input required.</div>':''}${r.nd!=null&&!N(S.co.shares)?'<div class="warn">Value per share needs <b>shares outstanding</b> — Input required.</div>':''}${r.fc10<=0?'<div class="warn demo">Year-10 FCFF is not positive, so the terminal value is not meaningful. Revisit the Y10 margin, capex and growth inputs.</div>':''}`}`},
+rel(){const r=rel(),c=S.comps,mc=[['pe','P/E'],['ev','EV/EBITDA'],['es','EV/Sales'],['pb','P/B']];
+return `<h2>Relative Valuation</h2><div class="sub">Enter comparable companies' multiples from a sourced data provider. Blank = not provided; negative or n.m. multiples are ignored in the median.</div>${warnDemo()}
+<div class="card tw"><table><tr><th>Company</th>${mc.map(a=>`<th>${a[1]}</th>`).join('')}<th style="text-align:left">Source</th><th></th></tr>
+${c.map((o,i)=>`<tr><td>${I(`comps.${i}.n`,o.n,0)}</td>${mc.map(([k])=>`<td>${I(`comps.${i}.${k}`,o[k])}</td>`).join('')}<td style="min-width:220px">${I(`comps.${i}.s`,o.s,0)}</td><td><button class="s" onclick="S.comps.splice(${i},1);render()">✕</button></td></tr>`).join('')}
+<tr><td><b>Median ${bd('C')}</b></td>${mc.map(([k])=>`<td>${r.med[k]==null?'—':r.med[k].toFixed(2)+'x'}</td>`).join('')}<td></td><td></td></tr>
+<tr><td><b>${S.co.name} (current) ${bd('C')}</b></td>${mc.map(([k])=>`<td>${x(r.cur[k])}</td>`).join('')}<td></td><td></td></tr>
+<tr><td><b>Implied EV (₹ Cr) ${bd('C')}</b></td>${mc.map(([k])=>`<td>${r.iev[k]==null?'—':f(r.iev[k])}</td>`).join('')}<td></td><td></td></tr><tr><td><b>Implied ₹/share @ median ${bd('C')}</b></td>${mc.map(([k])=>`<td>${r.ps[k]==null?'n.m.':'₹'+f(r.ps[k],1)}</td>`).join('')}<td></td><td></td></tr></table></div>
+<button onclick="S.comps.push({n:'New comp',pe:'',ev:'',es:'',pb:'',s:''});render()">+ Add comparable</button>
+${S.mode=='acad'?'<div class="warn" style="margin-top:12px">Loss-making firms have no meaningful P/E or EV/EBITDA, so those comp fields are blank. Comp EV/Sales and P/B values are DEMO placeholders — replace with sourced peer data.</div>':'<div class="warn" style="margin-top:12px">All peer multiples are DEMO placeholders — replace with sourced data (name the provider and date).</div>'}`},
+scn(){const a=scAll(),sc=S.d.sc,ia=v=>N(v)==null?INREQ:v,need=[...new Set(a.flatMap(o=>o.r&&o.r.need||[]))];
+return `<h2>Scenario Analysis</h2><div class="sub">Edit assumptions in the DCF tab (choose a case). Blank inputs show "Input required" — nothing is assumed.</div>
+<div class="card tw"><table><tr><th>${bd('A')} Assumption / ${bd('C')} output</th>${a.map(o=>`<th>${o.k.toUpperCase()}</th>`).join('')}</tr>
+${[['Revenue growth Y1 %','g1'],['Revenue growth Y5 %','g5'],['Y5 EBITDA margin %','m5'],['Y10 EBITDA margin %','m10'],['Terminal growth %','tg'],['WACC adj. (pp)','dw']].map(([n,k])=>`<tr><td>${n}</td>${a.map(o=>`<td>${ia(sc[o.k][k])}</td>`).join('')}</tr>`).join('')}
+<tr><td>WACC used</td>${a.map(o=>`<td>${o.r&&o.r.w!=null?(o.r.w*100).toFixed(2)+'%':INREQ}</td>`).join('')}</tr><tr><td>Enterprise value</td>${a.map(o=>`<td>${o.r&&o.r.ev!=null?f(o.r.ev):INREQ}</td>`).join('')}</tr><tr><td>Equity value</td>${a.map(o=>`<td>${o.r&&o.r.eq!=null?f(o.r.eq):INREQ}</td>`).join('')}</tr><tr><td><b>Value / share (₹)</b></td>${a.map(o=>`<td><b>${o.r&&o.r.ps!=null?f(o.r.ps,1):INREQ}</b></td>`).join('')}</tr></table></div>
+${need.length?`<div class="warn demo"><b>Input required</b> before every case can be valued:<ul>${need.map(q=>`<li>${q}</li>`).join('')}</ul></div>`:''}
+${a.every(o=>o.r&&o.r.ev!=null)?`<div class="card"><h3>Enterprise value by scenario (₹ Cr)</h3>${bars(a.map(o=>o.k.toUpperCase()),a.map(o=>o.r.ev))}</div>`:''}`},
+src(){const T={R:'Reported',P:'Project data (user-provided)',U:'User-provided',A:'Analyst assumption',D:'DEMO DATA'},IP=(p,v,ph)=>`<input placeholder="${ph}" value="${esc(v||'')}" onchange="up('${p}',this.value,0)">`;
+return `<h2>Source Verification</h2><div class="sub">Record where each important figure comes from. A figure counts as "Referenced" only when source, period and page are filled and it is not DEMO. Referenced does not mean verified.</div>${warnDemo()}<div class="warn">Project data is <b>not independently verified</b> by this app. Add the document, reporting period and exact page reference (e.g. UDRHP page numbers) for each line.</div>
+<div class="card tw"><table><tr><th>Figure</th><th>Latest value</th><th style="text-align:left">Source</th><th style="text-align:left">Reporting period</th><th style="text-align:left">Page / reference</th><th>Data type</th><th>Status</th></tr>
+${ITEMS().map(([k,n])=>{const v=N(S.rows[k]?S.rows[k][1][S.rows[k][1].length-1]:S.co[k]),st=vst(k);return `<tr><td>${n}</td><td>${v==null?'<span class="miss">n/p</span>':f(v,v%1?2:0)}</td><td style="min-width:220px">${IP('src.'+k,S.src[k],'e.g. UDRHP, document title')}</td><td style="min-width:110px">${IP('per.'+k,S.per[k],'e.g. FY2025-26')}</td><td style="min-width:130px">${IP('pg.'+k,S.pg[k],'e.g. page __')}</td><td><select onchange="up('tag.${k}',this.value,0)">${Object.entries(T).map(([a,b])=>`<option value=${a} ${S.tag[k]==a?'selected':''}>${b}</option>`).join('')}</select></td><td class="${st=='DEMO'?'neg':st[0]=='R'?'pos':'miss'}">${st}</td></tr>`}).join('')}</table></div>`},
+notes(){return `<h2>AI Research Notes</h2><div class="sub">Audit trail for the generated analysis: inputs, method, assumptions and gaps. Updates live.</div><div class="vw">${VW}</div>${notes()}`},
+log(){return `<div class="vw">${VW}</div>${logHTML()}`},
+rep(){const a=S.ai,run=a&&a.run,done=a&&a.text&&!run;
+const bar=`<div class="noprint" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px"><button class="gen" onclick="genAI()" ${run?'disabled':''}>${a?'REGENERATE':'GENERATE'} AI EQUITY RESEARCH</button>${run?'<button class="s" onclick="ctl&&ctl.abort()">Stop</button>':''}<button class="s" onclick="exportRep()" ${done?'':'disabled'}>Export Research Report</button><button class="s" onclick="print()">Print / PDF</button><span id="st" class="k" style="align-self:center"></span></div>`;
+const eng=`<div class="warn demo"><b>CLAUDE-POWERED EQUITY RESEARCH ENGINE</b> — Analysis is generated by Claude from the information and sources provided by the user. Financial figures and claims must be independently verified against primary sources before publication.</div>`;
+let body;
+if(!a)body=SMPS=='checking'?'<div class="card">Connecting to Claude…</div>':SMPS=='none'?'<div class="warn demo"><b>Claude is not available in this view.</b> Open the published Artifact inside claude.ai and approve the Claude usage prompt. No fallback text is generated — this report only comes from Claude.</div>':`<div class="card" style="text-align:center;padding:30px"><p>Click <b>GENERATE AI EQUITY RESEARCH</b> to send the data and assumptions entered in this workstation to Claude (you will be asked to approve Claude usage on first use). Claude writes the 17-section note from that data only. Change any input and regenerate to get a new analysis.</p></div>`;
+else{const stale=!run&&a.hash!==jstr(payload());body=`${stale?'<div class="warn noprint"><b>Inputs changed since this analysis was generated.</b> Click REGENERATE so Claude analyses the new data.</div>':''}<div id="aiout" class="rep">${run&&!a.text?'<p class="k">Thinking… Claude is analysing the data you entered (this can take up to a minute or two).</p>':md(a.text)}</div>${a.err?`<div class="warn demo">${EC[a.err]||'Claude request failed ('+esc(a.err)+').'}</div>`:''}`}
+const A=scAll(),r=rel(),P=v=>v==null?'—':'₹'+v.toFixed(1);
+const calc=`<div class="card"><h3>Model outputs ${bd('C')} — computed by this workstation's formulas, not by Claude</h3>${A.every(o=>o.r&&o.r.ps!=null)?`<div class="tw"><table><tr><th>DCF</th><th>Bear</th><th>Base</th><th>Bull</th></tr><tr><td>Enterprise value</td>${A.map(o=>`<td>${f(o.r.ev)}</td>`).join('')}</tr><tr><td>Value / share</td>${A.map(o=>`<td>${P(o.r.ps)}</td>`).join('')}</tr></table></div>`:'<p>'+INREQ+' — complete the DCF inputs to see model outputs.</p>'}${footy()}</div>`;
+return `${bar}<div class="rep card" id="repdoc"><div class="vw">${VW}</div>${eng}<h2>${esc(S.co.name)} (${esc(S.co.ticker)}) — Equity Research Note</h2><div class="sub">${esc(S.co.sector)} · ${a?'Generated '+a.at+' by Claude':'Not yet generated'} · ${S.mode=='acad'?'Academic / Private mode':'Listed mode'} · ₹ Cr unless stated</div>${warnDemo()}${body}${calc}${logHTML()}<div class="vw">${VW}</div></div>`}
+};
+function footy(){const a=scAll(),it=[],r=rel(),b=g=>a.find(o=>o.k==g).r;
+if(b('bear')&&b('bull')&&b('bear').ps!=null&&b('bull').ps!=null)it.push({n:'DCF (bear–bull)',lo:Math.min(b('bear').ps,b('bull').ps),hi:Math.max(b('bear').ps,b('bull').ps)});
+const rp=[r.ps.es,r.ps.pb].filter(v=>v!=null);if(rp.length)it.push({n:'Relative (EV/Sales–P/B median)',lo:Math.min(...rp),hi:Math.max(...rp)});
+return it.length?ff(it,N(S.co.price)):INREQ}
+const NAV=[['dash','Dashboard'],['res','Company Research'],['fin','Financial Analysis'],['wacc','CAPM / WACC'],['dcf','DCF Valuation'],['rel','Relative Valuation'],['scn','Scenario Analysis'],['src','Source Verification'],['notes','AI Research Notes'],['log','AI Analysis Log'],['rep','Research Report']];
+const ITEMS=()=>[...Object.entries(S.rows).map(([k,a])=>[k,a[0]]),['price','Share price'],['shares','Shares outstanding (Cr)'],['cash','Cash used in net debt'],['debt','Debt used in net debt']];
+const vst=k=>{const v=S.rows[k]?S.rows[k][1]:[S.co[k]];if(v.every(a=>N(a)==null))return 'Not provided';return S.tag[k]=='D'?'DEMO':(S.src[k]&&S.per[k]&&S.pg[k])?'Referenced (verify)':'Missing reference'};
+const vcount=()=>ITEMS().filter(([k])=>vst(k)=='Referenced (verify)').length+' / '+ITEMS().length;
+const VW='AI-generated analysis must be verified against primary company filings before publication.';
+const topbar=()=>`<div class="top noprint"><div><span class="chip">${S.mode=='acad'?'ACADEMIC / PRIVATE CASE':'LISTED · DEMO'}</span><b>${S.co.name}</b> · ${S.co.ticker}</div><div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><select style="width:auto" onchange="setMode(this.value)"><option value="acad" ${S.mode=='acad'?'selected':''}>Mode: Academic / Private Company</option><option value="list" ${S.mode=='list'?'selected':''}>Mode: Listed Company Research</option></select><button class="gen" onclick="genAI()">GENERATE AI EQUITY RESEARCH</button></div></div><div class="vw noprint">⚠ ${VW}</div>`;
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+let ctl=null,SMP=null,SMPS='checking';
+(async()=>{try{SMP=window.claude?await claude.use('sample'):null}catch(e){SMP=null}SMPS=SMP?'ok':'none';render()})();
+const EC={not_granted:'Claude usage was not approved, so no analysis was generated.',rate_limited:'Too many requests — wait a moment, then try again.',cancelled:'Generation stopped.',trunc:'Output was cut short; the text above is incomplete. Regenerate to retry.'};
+function md(t){const bg=(a,b)=>`<span class="b ${/^R/.test(b)?'R':/^U/.test(b)?'U':/^C/.test(b)?'C':/^A/.test(b)?'A':'D'}">${b}</span>`;
+const inl=s=>esc(s).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/\[(Reported|User-provided|Calculated|Assumption|DEMO[^\]]*)\]/g,bg);
+let o='',ul=0,tb=0;const cl=()=>{if(ul){o+='</ul>';ul=0}if(tb){o+='</table></div>';tb=0}};
+for(const l of t.split('\n')){let m;
+if(m=l.match(/^(#{1,4})\s+(.*)/)){cl();o+=m[1].length<3?`<h4>${inl(m[2])}</h4>`:`<h5>${inl(m[2])}</h5>`}
+else if(/^\s*\|/.test(l)){if(/^[\s|:-]+$/.test(l))continue;const c=l.trim().replace(/^\||\|$/g,'').split('|').map(x=>x.trim());if(!tb){if(ul){o+='</ul>';ul=0}o+='<div class="tw"><table><tr>'+c.map(x=>`<th>${inl(x)}</th>`).join('')+'</tr>';tb=1}else o+='<tr>'+c.map(x=>`<td>${inl(x)}</td>`).join('')+'</tr>'}
+else if(m=l.match(/^\s*[-*]\s+(.*)/)){if(tb)cl();if(!ul){o+='<ul>';ul=1}o+=`<li>${inl(m[1])}</li>`}
+else if(l.trim()===''){cl()}else{cl();o+=`<p>${inl(l)}</p>`}}
+cl();return o}
+const narr=k=>{const t=S.t[k]||'';return /^(Describe|e\.g\.)/.test(t)||!t?{text:null,status:'Information not provided'}:/^DEMO TEXT/.test(t)?{text:t,status:'DEMO placeholder text'}:{text:t,status:'User-provided'}};
+function payload(){const m=M(),r=rel(),meta=k=>({dataType:B[S.tag[k]],source:S.src[k]||null,reportingPeriod:S.per[k]||null,pageReference:S.pg[k]||null,verificationStatus:vst(k)});
+const dd=k=>{const q=dcf(k);if(q.need)return{status:'Input required',missingInputs:q.need};if(q.err)return{error:q.err};return{waccPct:q.w*100,terminalGrowthPct:q.g*100,pvOfFcff:q.pv,pvOfTerminalValue:q.ptv,terminalValueShareOfEV:q.tvp,enterpriseValue:q.ev,netDebt:q.nd==null?'Input required':q.nd,equityValue:q.eq==null?'Input required':q.eq,valuePerShareINR:q.ps==null?'Input required':q.ps,forecast:q.rows.map(o=>({year:'Y'+o.t,revenue:o.r,growthPct:o.gr*100,ebitda:o.eb,ebitdaMarginPct:o.mg*100,da:o.da,ebit:o.ebit,tax:o.tax,capex:o.cx,deltaNWC:o.dn,fcff:o.fc,pvOfFcff:o.pvf}))}};
+const rv=AR('rev'),ni=AR('ni'),gP=AR('gP'),nP=AR('nmP'),eP=AR('ebM'),oP=AR('opM'),nz=v=>N(v);
+return{workstationContext:S.mode=='acad'?'ACADEMIC / PRIVATE-COMPANY CASE. Zepto is a private company. Revenue, growth, net-loss and margin figures are USER-PROVIDED PROJECT DATA entered by the user; they are not independently verified and have no attached source unless an item says otherwise. All other inputs (balance sheet, cash flow, share count, WACC, forecasts, peers, price) have NOT been provided. There is no traded share price.':'LISTED-COMPANY DEMO MODE. The company is fictional; its figures, price and peer multiples are invented placeholders, NOT live market data.',
+units:'INR crore unless stated; year labels such as FY26 follow the user’s FY2025-26 naming',entity:{name:S.co.name,ticker:S.co.ticker,sector:S.co.sector},
+projectBrief:S.mode=='acad'?{framework:['DCF valuation','FCFF','WACC','CAPM','Relative valuation','EV/Sales','Bull/Base/Bear scenarios','10-year three-stage DCF'],objectives:['Calculate intrinsic value using DCF and relative valuation','Analyze revenue growth and profitability','Analyze AOV and adjusted EBITDA/order','Evaluate dark-store economics','Benchmark against quick-commerce peers where data is provided','Conduct sensitivity/scenario analysis'],dataStatus:'No AOV, adjusted EBITDA/order, dark-store economics or peer data has been provided: state "Information not provided." for those objectives.'}:null,
+profileItems:{priceReferenceINR:{value:nz(S.co.price),...meta('price')},sharesOutstandingCr:{value:nz(S.co.shares),...meta('shares')},cashForNetDebt:{value:nz(S.co.cash),...meta('cash')},debtForNetDebt:{value:nz(S.co.debt),...meta('debt')}},
+historicalFinancials:{years:S.yrs,items:Object.entries(S.rows).map(([k,[n,v]])=>({item:n,values:v.map(nz),...meta(k)}))},
+userNarrative:{businessOverview:narr('biz'),industryOverview:narr('ind'),growthDrivers:narr('drv'),catalysts:narr('cat'),risks:narr('rsk')},
+analystAssumptions:{capm:{riskFreePct:wn('rf'),beta:wn('beta'),marketRiskPremiumPct:wn('mrp'),preTaxCostOfDebtPct:wn('cod'),taxPct:wn('tax'),debtWeightPct:wn('wd'),costOfEquityPct:ke(),computedWaccPct:wacc(),waccUsedInDcfPct:W(),usingComputedWacc:S.useW},dcfCommon:{daPctSales:nz(S.d.da),capexPctSales:nz(S.d.capex),nwcPctOfDeltaRevenue:nz(S.d.nwc),taxPct:nz(S.d.tax)},scenarios:S.d.sc,scenarioNote:'10-year three-stage: Y1-5 growth/margin ramp to Y5 targets; Y6-10 fade to terminal growth and Y10 margin; terminal value on Y10 FCFF. null = Input required (not provided).'},
+calculatedByWorkstation:{note:'Deterministic arithmetic from the inputs above (not AI). Do not recompute or alter.',perYearCrossChecks:S.yrs.map((y,i)=>({year:y,revenue:rv[i],revenueGrowthProvidedPct:gP[i],revenueGrowthCalculatedPct:i>0&&rv[i-1]&&rv[i]!=null?(rv[i]/rv[i-1]-1)*100:null,netIncome:ni[i],netMarginProvidedPct:nP[i],netMarginCalculatedPct:rv[i]&&ni[i]!=null?ni[i]/rv[i]*100:null,ebitdaMarginProvidedPct:eP[i],operatingMarginProvidedPct:oP[i]})),latestYearRatios:{revenueGrowth:m.g,ebitdaMargin:m.em,operatingMargin:m.om,netMargin:m.nm,roe:m.roe,roic:m.roic,debtToEquity:m.de,currentRatio:m.cr,workingCapital:m.nwc,freeCashFlow:m.fcf},marketCap:mcap(),dcf:{bear:dd('bear'),base:dd('base'),bull:dd('bull')},relativeValuation:{companyMultiples:r.cur,peerMedianMultiples:r.med,impliedEVCrore:r.iev,impliedValuePerShareINR:r.ps,peers:S.comps.map(o=>({name:o.n,pe:nz(o.pe),evEbitda:nz(o.ev),evSales:nz(o.es),pb:nz(o.pb),source:o.s||null}))}}}}
+
+const jstr=(o,i)=>JSON.stringify(o,(k,v)=>typeof v=='number'?Math.round(v*1e4)/1e4:v,i);
+function buildPrompt(pl){return `You are an equity research analyst assistant inside a research workstation. Write a research note using ONLY the INPUT DATA JSON below.
+
+STRICT ANTI-HALLUCINATION RULES
+1. Use only facts and numbers present in the JSON. Never invent financial figures, prices, dates, filings, page numbers, peers, market sizes or competitor facts. Do not use outside knowledge about the company or industry.
+2. Never say a figure came from a filing unless the JSON gives that source for it. Quote the supplied source/period/page when relevant.
+3. Tag every figure inline with exactly one of: [Reported] (dataType "Reported"), [User-provided], [Assumption], [Calculated], or [DEMO DATA]. Items with dataType "DEMO DATA" are placeholders — never present them as reported, and say so.
+4. If something needed is missing or null, write "Information not provided." Do not guess or fill gaps.
+5. Industry/competitive analysis must rely ONLY on the userNarrative and supplied peer data. If those are empty, write "Information not provided."
+6. Do not create or imply a stock price, live market data, or any real-time source. You have no web, filing or market-data access. Private companies (e.g. Zepto in this academic demo) have no traded price.
+7. Do not recompute or change the workstation's calculated values; interpret them. Light arithmetic (e.g. a difference or ratio of two supplied numbers) is allowed only if labelled [Calculated].
+8. Do not issue BUY, SELL or HOLD ratings or price targets. Do not compare any valuation with a share price unless priceReference has a value; if it does, call it an exercise only.
+9. Be explicit about uncertainty and sensitivity (terminal value share, WACC, margin path).
+10. Figures with dataType "Project data (user-provided)" or "User-provided" are exactly as supplied by the user and are NOT independently verified. Never call them verified; say which have no source/page attached.
+11. If a valuation item has status "Input required" or a value is null, say "Input required" for it and do not estimate it. Do not produce a valuation conclusion from missing inputs.
+12. In sections 4-6 discuss the supplied numbers in detail, year by year: revenue, growth, net loss, EBITDA/operating/net margins, trends (e.g. change between the latest two years), and the provided-vs-calculated cross-checks. State what cannot be concluded without absolute EBITDA, cash-flow or balance-sheet data. Where projectBrief objectives (AOV, adjusted EBITDA/order, dark-store economics, peer benchmarking) have no data, say "Information not provided."
+
+OUTPUT: Markdown, using exactly these 17 headings in order, each as "## N. Title":
+1. Company Overview
+2. Business Model Analysis
+3. Industry / Competitive Analysis
+4. Revenue & Earnings Analysis
+5. Profitability Analysis
+6. Financial Ratio Analysis
+7. DCF Interpretation
+8. Relative Valuation Interpretation
+9. Bull Case
+10. Base Case
+11. Bear Case
+12. Growth Catalysts
+13. Key Risks
+14. Investment Thesis
+15. Valuation Summary
+16. Missing Information / Data Quality Issues
+17. Source Verification Requirements
+Use tables where helpful. Section 16 must list every missing/placeholder input. Section 17 must list which figures lack a source, period or page, and what primary document should be checked. Start directly with section 1 (no preamble).
+
+INPUT DATA (JSON):
+${jstr(pl)}`}
+async function genAI(){page='rep';if(!SMP){render();scrollTo(0,0);return}if(S.ai&&S.ai.run)return;
+const pl=payload(),prompt=buildPrompt(pl),a=S.ai={run:1,text:'',err:'',pl,hash:jstr(pl),at:new Date().toLocaleString()};ctl=new AbortController();render();scrollTo(0,0);
+try{const r=await SMP(prompt,{signal:ctl.signal,cache:false,onText:({text})=>{a.text=text;const o=document.getElementById('aiout');if(o&&S.ai===a)o.innerHTML=md(text)}});a.text=r.text;if(r.truncated)a.err='trunc'}catch(e){if(e&&e.text)a.text=e.text;a.err=(e&&e.code)||'unknown'}
+a.run=0;if(S.ai===a)render()}
+async function exportRep(){const el=document.getElementById('repdoc'),st=document.getElementById('st');if(!el||!st)return;
+try{const dl=window.claude&&await claude.use('downloads');if(!dl)throw{code:'unavailable'};
+const css='body{font:14px Arial;max-width:920px;margin:20px auto;color:#111}table{border-collapse:collapse;width:100%}td,th{border-bottom:1px solid #ccc;padding:4px 6px;text-align:left}.b{font-size:10px;border:1px solid #888;padding:0 4px;margin-left:4px}.warn,.vw{border:2px solid #c8372d;padding:8px;margin:8px 0}pre{white-space:pre-wrap;font-size:11px}';
+await dl.save({filename:S.co.name.replace(/\W+/g,'_')+'_research_report.html',data:'<!doctype html><meta charset=utf-8><title>'+esc(S.co.name)+' research report</title><style>'+css+'</style>'+el.innerHTML});st.textContent='Save dialog shown — confirm to save the file.'}
+catch(e){st.textContent=e&&e.code=='cancelled'?'Save declined.':'Direct download unavailable here — use Print / PDF.'}}
+function logHTML(){const a=S.ai,pl=a?a.pl:payload(),js=jstr(pl,1),pr=buildPrompt(pl).split('INPUT DATA')[0];
+return `<h2 style="margin-top:18px">AI ANALYSIS LOG</h2><div class="sub">${a?`Run at ${a.at}. Everything Claude saw is below.`:'No analysis generated yet — showing the data that WOULD be sent to Claude from current inputs.'}</div>
+<div class="card"><h3>Input data given to Claude</h3><p>Claude receives only the instructions and the JSON snapshot below (${(js.length/1024).toFixed(1)} KB) — no filings, no web, no live market data.</p><details><summary>View input JSON</summary><pre style="overflow:auto;max-height:380px;font-size:11px;white-space:pre-wrap">${esc(js)}</pre></details><details><summary>View instructions sent to Claude</summary><pre style="overflow:auto;max-height:380px;font-size:11px;white-space:pre-wrap">${esc(pr)}</pre></details></div>
+<div class="card"><h3>Information Claude could not verify</h3><ul><li>Every figure is taken as supplied. Claude cannot confirm any number against a filing, exchange or data provider.</li><li>Claude has no live price or market data; the price shown is a ${S.mode=='acad'?'hypothetical reference':'demo placeholder'}, not a quote.</li><li>Peer multiples, WACC inputs, growth and margin assumptions are inputs, not verified facts.</li><li>See Claude's sections 16–17 above for its own list of gaps, and the cards below for the workstation's audit.</li></ul></div>${notes()}`}
+function notes(){const keys=Object.keys(S.rows),n=S.yrs.length,miss=[];let tot=keys.length*n,fill=0;
+keys.forEach(k=>{const v=S.rows[k][1],mi=v.map((q,i)=>N(q)==null?S.yrs[i]:null).filter(Boolean);fill+=n-mi.length;if(mi.length)miss.push(S.rows[k][0]+': '+(mi.length==n?'all years':mi.join(', ')))});
+['price','shares','cash','debt'].forEach(k=>{if(N(S.co[k])==null)miss.push('Company '+k+' ('+(k=='price'&&S.mode=='acad'?'no market price for a private company':'')+')')});
+[['pe','P/E'],['ev','EV/EBITDA'],['es','EV/Sales'],['pb','P/B']].forEach(([k,q])=>{if(!S.comps.some(o=>N(o[k])!=null))miss.push('Peer '+q+' multiples')});
+const vn=[...new Set(['bear','base','bull'].flatMap(k=>dNeed(k)))];
+const mc={};ITEMS().forEach(([k])=>{const v=vst(k);mc[v]=(mc[v]||0)+1});const unv=ITEMS().filter(([k])=>vst(k)!='Referenced (verify)'&&vst(k)!='Not provided');const sc=S.d.sc,w=S.w,ia=v=>N(v)==null?'Input required':v;
+const ul=a=>'<ul>'+a.map(i=>'<li>'+i+'</li>').join('')+'</ul>';
+return `<div class="grid g2"><div class="card"><h3>1. Data provided</h3>${ul([`Company profile: ${S.co.name}, ${S.co.ticker}, ${S.co.sector}`,`Historical lines: ${fill} of ${tot} cells populated (${S.yrs[0]}–${S.yrs[n-1]})`,`Peer set: ${S.comps.length} comparables`,`Reference status: ${Object.entries(mc).map(([a,b])=>b+' × '+a).join('; ')}`,'Narrative inputs: only what you have written'])}</div>
+<div class="card"><h3>2. Calculations performed ${bd('C')}</h3>${ul(['Year-by-year growth and net-margin cross-checks against provided figures','Debt/Equity, current ratio, working capital, FCF, ROE, ROIC — only where inputs exist','CAPM cost of equity, after-tax cost of debt, WACC — only when all inputs are entered','10-year three-stage FCFF DCF per scenario, Gordon-growth terminal value → EV → equity → per share','Peer medians and implied EV / value per share (EV/Sales, EV/EBITDA, P/E, P/B)'])}</div>
+<div class="card"><h3>3. Assumptions made ${bd('A')}</h3>${ul([`Risk-free ${ia(w.rf)}%, beta ${ia(w.beta)}, MRP ${ia(w.mrp)}%, cost of debt ${ia(w.cod)}%, tax ${ia(w.tax)}%, debt weight ${ia(w.wd)}%`,`WACC used: ${pf(W())}`,`D&A ${ia(S.d.da)}% / capex ${ia(S.d.capex)}% of sales; ΔNWC ${ia(S.d.nwc)}%; tax ${ia(S.d.tax)}%`,...['base','bull','bear'].map(k=>`${k}: growth ${ia(sc[k].g1)}%→${ia(sc[k].g5)}%, Y5 margin ${ia(sc[k].m5)}%, Y10 margin ${ia(sc[k].m10)}%, terminal g ${ia(sc[k].tg)}%, WACC adj ${ia(sc[k].dw)}`)])}</div>
+<div class="card"><h3>4. Information missing</h3>${miss.length?ul(miss.map(q=>q+' — Information not provided')):'<p>No empty inputs detected.</p>'}${vn.length?`<p class="miss">Valuation inputs still required: ${vn.length} (see DCF tab).</p>`:''}</div></div>
+<div class="card"><h3>5. Figures requiring source verification</h3><p>${unv.length} provided figures lack a complete reference (source + period + page) or are DEMO DATA. Project data is user-provided and not independently verified:</p>${ul(unv.map(([k,q])=>q+' — '+vst(k)))}<p>All analyst assumptions and peer multiples also require sourcing. Calculated outputs inherit the quality of the inputs.</p></div>`}
+
+function render(){document.getElementById('nav').innerHTML=`<h1>EQUITY WORKSTATION<small>Research & Valuation Copilot</small></h1>`+NAV.map(([k,n])=>`<a class="${k==page?'on':''}" onclick="page='${k}';render();scrollTo(0,0)">${n}</a>`).join('')+`<div style="margin:14px 8px;font-size:11px;color:#7d90ad">${bd('R')}${bd('U')}${bd('A')}${bd('C')}<br>Every figure is tagged by type.</div>`;
+const sy=scrollY;document.getElementById('m').innerHTML=topbar()+V[page]();scrollTo(0,sy)}
+render();
+</script></body></html>
